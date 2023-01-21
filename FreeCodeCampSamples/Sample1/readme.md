@@ -4,5 +4,5 @@
 
 ### Learn to HTML by Building a Cat Photo App Course
 
-Adımlarını takip ederek yapmış olduğum basit bir HTML örneğidir.
+Adımlarını takip ederek yapmış olduğum basit bir HTML örneğidir.    
 
