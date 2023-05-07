@@ -1,17 +1,22 @@
 ﻿using ToDoApp.Db.Entities;
 using ToDoApp.Db;
+using System.Linq;
+using ToDoApp;
+
 
 namespace ToDoApp.Services
 {
-    public static class ToDoService
+    public class ToDoService
     {
-        public static void GetToDo()
+        public static void GetToDo(int skip = 0)
         {
+            Console.Clear();
             Console.WriteLine("Yapılacaklar\n-------------------------------------------\n");
 
             using (ToDoContext context = new())
             {
-                var toDoList = context.ToDo.ToList();
+                
+                var toDoList = context.ToDo.Skip(skip * 10).Take(10).ToList();
 
                 foreach (var toDo in toDoList)
                 {
@@ -37,6 +42,7 @@ namespace ToDoApp.Services
 
                 context.ToDo.Add(toDo);
                 context.SaveChanges();
+                GetToDo();
             }
         }
 
@@ -64,6 +70,7 @@ namespace ToDoApp.Services
                         toDoInDb.TaskDescription = newTaskDescription;
                         toDoInDb.UpdatedAt = DateTime.Now;
                         context.SaveChanges();
+                        GetToDo();
                         break;
                     }
                 }
@@ -93,6 +100,7 @@ namespace ToDoApp.Services
                         }
                         context.ToDo.Remove(toBeDeletedToDo);
                         context.SaveChanges();
+                        GetToDo();
                         break;
                     }
                 }
@@ -103,5 +111,28 @@ namespace ToDoApp.Services
             }
 
         }
+
+        //public static void GetToDoNewPage()
+        //{
+        //    using (ToDoContext context = new())
+        //    {
+        //        int counter = 10;
+        //        var toDoCount = context.ToDo.Count();
+        //        for (int i = counter; i <= toDoCount; i += 10)
+        //        {
+                    
+        //            var toDoList = context.ToDo.Skip(i).Take(10).ToList();
+        //            foreach(var toDo in toDoList)
+        //            {
+        //                Console.WriteLine($"{toDo.Id} - {toDo.TaskDescription}");
+        //            }
+        //            counter += i;
+        //            if(counter %10 == 0)
+        //            {
+        //                break;
+        //            }
+        //        }
+        //    }
+        //}
     }
 }

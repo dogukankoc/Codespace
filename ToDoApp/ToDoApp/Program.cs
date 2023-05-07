@@ -1,18 +1,19 @@
-﻿using ToDoApp.Services;
+﻿using ToDoApp.Db;
+using ToDoApp.Services;
 
 namespace ToDoApp
 {
-    internal class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+            ToDoService.GetToDo();
+            int skipCount = 0;
             while (true)
             {
                 try
                 {
-                    Console.Clear();
-                    ToDoService.GetToDo();
-                    Console.Write("Görev Ekle:1 - Görev Düzenle:2 - Görev Sil:3 >>> ");
+                    Console.Write("Görev Ekle:1 - Görev Düzenle:2 - Görev Sil:3 - Sonraki Sayfa:4 - Önceki Sayfa: 5 >>> ");
                     var taskType = Convert.ToInt32(Console.ReadLine());
 
                     switch (taskType)
@@ -29,13 +30,21 @@ namespace ToDoApp
                             ToDoService.DeleteToDo();
                             break;
 
+                        case 4:
+                            skipCount++;
+                            ToDoService.GetToDo(skipCount);
+                            break;
+                        case 5:
+                            skipCount--;
+                            ToDoService.GetToDo(skipCount);
+                            break;
                     }
                 }
                 catch (Exception)
                 {
-                    
+
                 }
-                
+
             }
 
         }
