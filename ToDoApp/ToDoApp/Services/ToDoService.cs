@@ -1,33 +1,28 @@
-﻿using ToDoApp.Db.Entities;
-using ToDoApp.Db;
-using System.Linq;
-using ToDoApp;
-
+﻿using ToDoApp.Db;
+using ToDoApp.Db.Entities;
 
 namespace ToDoApp.Services
 {
     public class ToDoService
     {
-        public static void GetToDo(int skip = 0)
+        public static void GetToDo(User user,int skip = 0)
         {
             Console.Clear();
+            Console.WriteLine($"Hoşgeldin {user.NameSurname}\n");
             Console.WriteLine("Yapılacaklar\n-------------------------------------------\n");
-
             using (ToDoContext context = new())
             {
-                
-                var toDoList = context.ToDo.Skip(skip * 10).Take(10).ToList();
+                var toDoList = context.ToDo.Where(u => u.CreatedBy == user.Id.ToString()).Skip(skip * 10).Take(10).ToList();
 
                 foreach (var toDo in toDoList)
                 {
                     Console.WriteLine($"{toDo.Id} - {toDo.TaskDescription}");
                 }
             }
-
             Console.WriteLine("\n-------------------------------------------\n");
         }
 
-        public static void AddToDo()
+        public static void AddToDo(User user)
         {
             Console.Write("Görev tanımını giriniz:");
 
@@ -37,16 +32,17 @@ namespace ToDoApp.Services
             {
                 var toDo = new ToDo
                 {
-                    TaskDescription = taskDescription
+                    TaskDescription = taskDescription,
+                    CreatedBy = (user.Id).ToString()
+                    
                 };
-
                 context.ToDo.Add(toDo);
                 context.SaveChanges();
-                GetToDo();
+                GetToDo(user);
             }
         }
 
-        public static void UpdateToDo()
+        public static void UpdateToDo(User user)
         {
             while (true)
             {
@@ -70,7 +66,7 @@ namespace ToDoApp.Services
                         toDoInDb.TaskDescription = newTaskDescription;
                         toDoInDb.UpdatedAt = DateTime.Now;
                         context.SaveChanges();
-                        GetToDo();
+                        GetToDo(user);
                         break;
                     }
                 }
@@ -81,7 +77,7 @@ namespace ToDoApp.Services
             }
         }
 
-        public static void DeleteToDo()
+        public static void DeleteToDo(User user)
         {
             while (true)
             {
@@ -100,7 +96,7 @@ namespace ToDoApp.Services
                         }
                         context.ToDo.Remove(toBeDeletedToDo);
                         context.SaveChanges();
-                        GetToDo();
+                        GetToDo(user);
                         break;
                     }
                 }
@@ -111,28 +107,5 @@ namespace ToDoApp.Services
             }
 
         }
-
-        //public static void GetToDoNewPage()
-        //{
-        //    using (ToDoContext context = new())
-        //    {
-        //        int counter = 10;
-        //        var toDoCount = context.ToDo.Count();
-        //        for (int i = counter; i <= toDoCount; i += 10)
-        //        {
-                    
-        //            var toDoList = context.ToDo.Skip(i).Take(10).ToList();
-        //            foreach(var toDo in toDoList)
-        //            {
-        //                Console.WriteLine($"{toDo.Id} - {toDo.TaskDescription}");
-        //            }
-        //            counter += i;
-        //            if(counter %10 == 0)
-        //            {
-        //                break;
-        //            }
-        //        }
-        //    }
-        //}
     }
 }
