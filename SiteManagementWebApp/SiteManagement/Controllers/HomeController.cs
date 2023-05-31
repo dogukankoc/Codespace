@@ -6,6 +6,7 @@ namespace SiteManagement.Controllers
     {
         public IActionResult Index()
         {
+            
             return View();
         }
     }
