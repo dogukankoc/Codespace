@@ -22,34 +22,35 @@
             top: 30%;
         }
     </style>
-    
 </head>
 
 <body>
-    
-
     
     <form class="avarage" asp-action="Register" asp-controller="Auth" method="post">
         <h5>Site Yönetim Uygulaması için kaydolun</h5> <br />
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="floatingInput" placeholder="Ad Soyad" asp-for="NameSurname">
             <label for="floatingInput">Ad Soyad</label>
+            <span asp-validation-for="NameSurname"></span>
         </div> 
         
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" asp-for="Email">
             <label for="floatingInput">Email</label>
+            <span asp-validation-for="Email"></span>
         </div> 
         <div class="form-floating mb-3">
             <input type="password" class="form-control" id="floatingPassword" placeholder="Password" asp-for="Password">
             <label for="floatingPassword">Şifre</label>
         </div> 
         <div class="form-floating mb-3">
-            <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" asp-for="PasswordConfirmation">
             <label for="floatingPassword">Şifre Tekrar</label>
+            <span asp-validation-for="Password"></span>
         </div> 
         <button type="submit" class="btn btn-outline-primary" style="width:25rem;">Kaydol</button> <br /> <br />
         <h6>Zaten hesabınız var mı? <a href="https://localhost:44309/auth/login">Oturum açın</a> </h6>
+
     </form>
 </body>
 </html>
