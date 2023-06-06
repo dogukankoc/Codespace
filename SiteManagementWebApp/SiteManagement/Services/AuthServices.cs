@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using SiteManagement.Helpers;
@@ -8,6 +9,8 @@ using System;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using SiteManagement.Controllers;
 
 namespace SiteManagement.Services
 {
@@ -37,22 +40,24 @@ namespace SiteManagement.Services
         }
         public static string Login(string email, string password)
         {
-            using(var context = new SiteManagementDbContext())
+            
+            using (var context = new SiteManagementDbContext())
             {
                 var userControl = context.Users.FirstOrDefault(x => x.Email == email);
                 password = EncryptHelper.SHA256Hash(password);
                 
-                if(userControl.Password == password)
+
+                if (userControl.Password == password)
                 {
-                    string welcomeMessage = $"Hoş geldin {userControl.NameSurname}";
+                    string welcomeMessage = $"{userControl.NameSurname}";
                     return welcomeMessage;
                 }
                 else
                 {
                     return null;
                 }
-                
             }
+            
         }
     }
 }

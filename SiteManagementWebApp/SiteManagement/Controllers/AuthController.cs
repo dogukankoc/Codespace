@@ -18,8 +18,10 @@ namespace SiteManagement.Controllers
             var userControl = AuthServices.Login(email, password);
             if(userControl != null)
             {
+                TempData["welcomeMessage"] = userControl;
                 return RedirectToAction("Index", "Home");
             }
+            ViewBag.checkInformation = "Girdiğiniz bilgiler yanlış lütfen tekrar deneyin.";
             return View();
         }
         public IActionResult Register()

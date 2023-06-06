@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SiteManagement.Models.Db.Entities;
+using SiteManagement.Controllers;
+using SiteManagement;
+using Microsoft.IdentityModel.Protocols;
 
 namespace SiteManagement.Models.Db
 {
@@ -8,7 +12,7 @@ namespace SiteManagement.Models.Db
        public DbSet<User> Users { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=localhost; Database=SiteManagementDb; Integrated Security= true; Encrypt=false");
+            optionsBuilder.UseSqlServer(AppSettings.ConnectionString);
         }
     }
 }
