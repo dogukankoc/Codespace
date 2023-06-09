@@ -10,6 +10,8 @@ namespace SiteManagement.Controllers
         
         public IActionResult Index()
         {
+            
+            TempData["welcomeMessage"] = HttpContext.Session.GetString("UserSession");
             return View();
         }
     }

@@ -19,20 +19,21 @@ namespace SiteManagement
 {
     public class Startup
     {
-       public readonly IConfiguration _configuration;
+        public readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        
+
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
-            
+            services.AddSession();
+
         }
 
-        
+
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             AppSettings.ConnectionString = _configuration.GetConnectionString("MSSQLServer");
@@ -40,14 +41,23 @@ namespace SiteManagement
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Auth}/{action=Login}/{id?}");
+               
+                endpoints.MapControllerRoute("Login","giris", new {controller ="Auth", action = "Login" });
+                endpoints.MapControllerRoute("Home", "anasayfa", new { controller = "Home", action = "Index" });
+                endpoints.MapControllerRoute("Register", "kayitol", new { controller = "Auth", action = "register" });
+
+
+
             });
         }
     }

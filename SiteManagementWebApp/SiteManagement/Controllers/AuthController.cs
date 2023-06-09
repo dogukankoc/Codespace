@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Services;
@@ -18,7 +19,8 @@ namespace SiteManagement.Controllers
             var userControl = AuthServices.Login(email, password);
             if(userControl != null)
             {
-                TempData["welcomeMessage"] = userControl;
+                HttpContext.Session.SetString("UserSession", email);
+                
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.checkInformation = "Girdiğiniz bilgiler yanlış lütfen tekrar deneyin.";
@@ -49,6 +51,11 @@ namespace SiteManagement.Controllers
                 }
                 return View();
             }
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return View("Login");
         }
     }
 }
