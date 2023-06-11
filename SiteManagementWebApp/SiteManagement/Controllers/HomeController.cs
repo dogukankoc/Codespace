@@ -10,9 +10,15 @@ namespace SiteManagement.Controllers
         
         public IActionResult Index()
         {
-            
-            TempData["welcomeMessage"] = HttpContext.Session.GetString("UserSession");
-            return View();
+            if(HttpContext.Session.GetString("UserSession") != null)
+            {
+                TempData["welcomeMessage"] = HttpContext.Session.GetString("UserSession");
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Login", "Auth");
+            }
         }
     }
 }
