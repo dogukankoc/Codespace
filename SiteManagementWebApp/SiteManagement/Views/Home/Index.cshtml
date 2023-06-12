@@ -1,30 +1,38 @@
-﻿<h5 style="text-align:center;">Hoş geldin @TempData["welcomeMessage"]</h5>
+﻿<script src="https://kit.fontawesome.com/410752035b.js" crossorigin="anonymous"></script>
 
-<!--Slidesshow-->
-<div id="carouselExampleIndicators" class="carousel slide">
-    <div class="carousel-indicators">
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+<div style="width:100%;  min-height:100vh; background-color:#D5D8DC;">
+    <div class="row" style="width:100%; min-height:18vh;">
+        <div class="col" style="border-radius:15px;background-color:#1F618D;">
+            <b>Hoş geldin @TempData["welcomeMessage"]</b>
+            <center>
+                <br />
+                <b>Daireler</b> <br /> <br />
+                <i class="fa-solid fa-house fa-2xl"></i> <br /> <br />
+                <b>.... Daire</b>
+            </center>
+        </div>
+        <div class="col" style="border-radius:15px; background-color:#566573;">
+            <center>
+                <br /><br />
+                <b>Görevliler</b> <br /> <br />
+                <i class="fa-solid fa-user fa-2xl"></i> <br /><br />
+            </center>
+        </div>
+        <div class="col" style="border-radius:15px; background-color:#A569BD;">
+            <center>
+                <br /><br />
+                <b>Borcunuz</b> <br /> <br />
+                <i class="fa-solid fa-turkish-lira-sign fa-2xl"></i> <br /><br />
+                <b>... TL</b>
+
+            </center>
+        </div>
+        <div class="col" style=" border-radius:15px;background-color:#52BE80;">
+            <center>
+                <br /><br />
+                <b>Ödeme Geçmişi</b> <br /> <br />
+                <i class="fa-solid fa-money-bill-trend-up fa-2xl"></i></i> <br /><br />
+            </center>
+        </div>
     </div>
-    <div class="carousel-inner">
-        <div class="carousel-item active">
-            <img src="~/images/a.jpg" class="d-block w-100" alt="abcdef" />
-        </div>
-        <div class="carousel-item">
-            <img src="~/images/b.jpg" class="d-block w-100" alt="...">
-        </div>
-        <div class="carousel-item">
-            <img src="~/images/a.jpg" class="d-block w-100" alt="...">
-        </div>
-    </div>
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
 </div>
-
