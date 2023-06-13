@@ -9,8 +9,8 @@ using SiteManagement.Models.Db;
 namespace SiteManagement.Migrations
 {
     [DbContext(typeof(SiteManagementDbContext))]
-    [Migration("20230613092844_ProvinceAndDistrictTablesAdded")]
-    partial class ProvinceAndDistrictTablesAdded
+    [Migration("20230613110917_EntityRelationship")]
+    partial class EntityRelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -84,7 +84,7 @@ namespace SiteManagement.Migrations
                     b.HasOne("SiteManagement.Models.Db.Entities.Province", "Province")
                         .WithMany("Districts")
                         .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Province");

@@ -82,7 +82,7 @@ namespace SiteManagement.Migrations
                     b.HasOne("SiteManagement.Models.Db.Entities.Province", "Province")
                         .WithMany("Districts")
                         .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Province");

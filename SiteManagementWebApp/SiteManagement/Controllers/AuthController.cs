@@ -10,7 +10,7 @@ namespace SiteManagement.Controllers
     {
         public IActionResult Login()
         {
-
+            
             if (HttpContext.Session.GetString("UserSession") != null)
             {
                 return RedirectToAction("Index", "Home");

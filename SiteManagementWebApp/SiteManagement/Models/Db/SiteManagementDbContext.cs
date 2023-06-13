@@ -4,6 +4,8 @@ using SiteManagement.Models.Db.Entities;
 using SiteManagement.Controllers;
 using SiteManagement;
 using Microsoft.IdentityModel.Protocols;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace SiteManagement.Models.Db
 {
@@ -16,14 +18,17 @@ namespace SiteManagement.Models.Db
         {
             optionsBuilder.UseSqlServer(AppSettings.ConnectionString);
         }
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            foreach (var relationship in modelbuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            base.OnModelCreating(modelbuilder);
+        }
     }
 
-    //public class Addprovince
-    //{ 
-    //    public void AddProvince()
-    //    {
-            
-    //    }
-    //}
+    
 
 }
