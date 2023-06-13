@@ -10,17 +10,29 @@ namespace SiteManagement.Controllers
     {
         public IActionResult Login()
         {
-            return View();
+
+            if (HttpContext.Session.GetString("UserSession") != null)
+            {
+                return RedirectToAction("Index", "Home");
+                
+            }
+            else
+            {
+                return View();
+            }
+
+            
         }
 
         [HttpPost]
         public IActionResult Login(string email, string password)
         {
             var userControl = AuthServices.Login(email, password);
-            if(userControl != null)
+
+            if (userControl != null)
             {
                 HttpContext.Session.SetString("UserSession", email);
-                
+
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.checkInformation = "Girdiğiniz bilgiler yanlış lütfen tekrar deneyin.";
@@ -39,7 +51,7 @@ namespace SiteManagement.Controllers
                 if (ModelState.IsValid)
                 {
                     var availableMail = AuthServices.Register(user);
-                    if(availableMail != null)
+                    if (availableMail != null)
                     {
                         ViewBag.availableMail = availableMail;
                         return View();

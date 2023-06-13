@@ -9,10 +9,21 @@ namespace SiteManagement.Models.Db
 {
     public class SiteManagementDbContext : DbContext
     {
-       public DbSet<User> Users { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Province> Provinces { get; set; }
+        public DbSet<District> Districts { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(AppSettings.ConnectionString);
         }
     }
+
+    //public class Addprovince
+    //{ 
+    //    public void AddProvince()
+    //    {
+            
+    //    }
+    //}
+
 }

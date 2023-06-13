@@ -28,15 +28,16 @@ namespace SiteManagement
 
         public void ConfigureServices(IServiceCollection services)
         {
+            AppSettings.ConnectionString = _configuration.GetConnectionString("MSSQLServer");
+
             services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddSession();
-
         }
 
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            AppSettings.ConnectionString = _configuration.GetConnectionString("MSSQLServer");
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -51,10 +52,11 @@ namespace SiteManagement
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Auth}/{action=Login}/{id?}");
-               
-                endpoints.MapControllerRoute("Login","giris", new {controller ="Auth", action = "Login" });
+
+                endpoints.MapControllerRoute("Login", "giris", new { controller = "Auth", action = "Login" });
                 endpoints.MapControllerRoute("Home", "anasayfa", new { controller = "Home", action = "Index" });
                 endpoints.MapControllerRoute("Register", "kayitol", new { controller = "Auth", action = "register" });
+                endpoints.MapControllerRoute("Management", "yonetim", new { controller = "Management", action = "Index" });
 
 
 
