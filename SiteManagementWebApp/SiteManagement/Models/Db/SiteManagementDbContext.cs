@@ -14,6 +14,14 @@ namespace SiteManagement.Models.Db
         public DbSet<User> Users { get; set; }
         public DbSet<Province> Provinces { get; set; }
         public DbSet<District> Districts { get; set; }
+        public DbSet<Site> Sites { get; set; }
+        public DbSet<Block> Blocks { get; set; }
+        public DbSet<Apartment> Apartments { get; set; }
+        public DbSet<ApartmentDept> ApartmentDepts { get; set; }
+        public DbSet<Human> Humans { get; set; }
+        public DbSet<Worker> Workers { get; set; }
+
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(AppSettings.ConnectionString);

@@ -2,26 +2,32 @@
     <div style="width:35%; position:absolute; left:2%;">
         <form class="avarage" asp-action="SiteCreate" asp-controller="Management" method="post">
 
-            <h6>Site oluşturun</h6> <br />
+            <h5>Site oluşturun</h5> <br />
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput" placeholder="Site adı" asp-for="NameSurname">
+                <input type="text" style="font-size:20px;" class="form-control" id="floatingInput" placeholder="Site adı" asp-for="NameSurname">
                 <label for="floatingInput">Site Adı</label>
 
             </div>
 
             <script type="text/javascript">
-                $(document).ready(function () {
+                $(document).ready(function () 
+                {
 
-                    $.ajax({
+                    $.ajax(
+                        {
                         type: "post",
                         url: '@Url.Action("GetCategories", "Management")',
-                        success: function (categories) {
-                            $.each(categories, function (index, category) {
-                                $('#Categories').append($('<option/>', {
+                        success: function (categories) 
+                        {
+                            $.each(categories, function (index, category) 
+                            {
+                                $('#Categories').append($('<option/>', 
+                                {
                                     value: category.id,
                                     text: category.name
                                 }));
-                            });
+                            }
+                            );
                         },
                         error: function () {
                             /*Bu metod ile Ajax işlemi başarısız
