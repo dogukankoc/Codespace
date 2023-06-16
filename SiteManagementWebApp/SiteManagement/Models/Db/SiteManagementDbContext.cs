@@ -35,14 +35,6 @@ namespace SiteManagement.Models.Db
             }
 
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<Site>()
-            //    .HasOne(c => c.District)   
-            //    .WithOne(c => c.Site)
-            //    .HasForeignKey<Site>(c => c.DistrictId); //CalisanAdresi Depentend olacak burada bildiridk ve Id kolonunun foreign key olduğunu söyledik. Primary key özelliği ezilmesin diye .HasKey ile primary key olduğunu da bildirmemiz gerek
-
-            //modelBuilder.Entity<District>()
-            //    .HasKey(c => c.Id); //CalisanAdresi entity'sindeki Id kolonunun Primary key olduğunu bildirmiş olduk.
         }
 
     }

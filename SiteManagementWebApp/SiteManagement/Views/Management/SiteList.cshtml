@@ -4,48 +4,42 @@
         float: left;
         width: 40%;
         margin: 10px;
+        position:absolute;
+        top:10%;
+        left:29%;
     }
 
-    #form {
-        float:left;
-        width: 30%;
-        margin: 10px;
-    }
-    
-    .icon1{
+    .btn1{
         float:right;
         margin:5px;
-        font-size:17px;
-        cursor:pointer;
-    }
-    #icon2{
-        float:right;
-
     }
 
-    .
+
+    
+
+    
 </style>
 
-<a style ="float:right; margin:5px;" href="http://localhost:44309/management/createnewsite"><button type="button" class="btn btn-success">Site Oluştur</button></a>
+<a style="float:right; margin:10px;" href="https://localhost:44309/management/createnewsite"><button type="button" class="btn btn-success">Site Oluştur</button></a>
 
 
 
 
-<div >
-    <ul  class="list-group ul">
-    @foreach (var item in ViewBag.SiteList)
-    {
-            <li class="list-group-item ">@item.Name
-                <i class="bi bi-app icon1 ">      </i>  <i class="bi bi-file-minus icon1"> </i> <i class="bi bi-file-plus icon1"> </i>
-                
+<div class="ul">
+    <ul class="list-group ">
+        @foreach (var item in ViewBag.SiteList)
+        {
+            <li class="list-group-item ">
+                @item.Name
+                <button type="button" class="btn btn-outline-danger btn1">Sil</button> <button type="button" class="btn btn-outline-success btn1">Düzenle</button>
+
             </li>
 
-    }
+        }
     </ul>
 </div>
 
-<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tooltip on bottom">
-    Tooltip on bottom
-</button>
+
+
 
 

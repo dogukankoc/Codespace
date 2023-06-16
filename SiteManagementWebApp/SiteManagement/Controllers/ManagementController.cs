@@ -44,7 +44,7 @@ namespace SiteManagement.Controllers
                 context.Sites.Add(site);
                 context.SaveChanges();
             }
-            return View();
+            return RedirectToAction("SiteList");
         }
 
         public IActionResult SiteList()
