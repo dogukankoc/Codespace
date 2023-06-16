@@ -47,7 +47,7 @@ namespace SiteManagement.Services
                 password = EncryptHelper.SHA256Hash(password);
                 
 
-                if (userControl.Password == password)
+                if (userControl !=null && userControl.Password == password)
                 {
                     string welcomeMessage = $"{userControl.NameSurname}";
                     return welcomeMessage;

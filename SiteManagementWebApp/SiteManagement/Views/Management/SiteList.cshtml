@@ -1,0 +1,51 @@
+﻿
+<style>
+    .ul {
+        float: left;
+        width: 40%;
+        margin: 10px;
+    }
+
+    #form {
+        float:left;
+        width: 30%;
+        margin: 10px;
+    }
+    
+    .icon1{
+        float:right;
+        margin:5px;
+        font-size:17px;
+        cursor:pointer;
+    }
+    #icon2{
+        float:right;
+
+    }
+
+    .
+</style>
+
+<a style ="float:right; margin:5px;" href="http://localhost:44309/management/createnewsite"><button type="button" class="btn btn-success">Site Oluştur</button></a>
+
+
+
+
+<div >
+    <ul  class="list-group ul">
+    @foreach (var item in ViewBag.SiteList)
+    {
+            <li class="list-group-item ">@item.Name
+                <i class="bi bi-app icon1 ">      </i>  <i class="bi bi-file-minus icon1"> </i> <i class="bi bi-file-plus icon1"> </i>
+                
+            </li>
+
+    }
+    </ul>
+</div>
+
+<button type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Tooltip on bottom">
+    Tooltip on bottom
+</button>
+
+

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteManagement.Models.Db;
 
 namespace SiteManagement.Migrations
 {
     [DbContext(typeof(SiteManagementDbContext))]
-    partial class SiteManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230615095053_mig_3")]
+    partial class mig_3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,8 +37,6 @@ namespace SiteManagement.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("BlockId");
-
-                    b.HasIndex("HomeOwnerId");
 
                     b.ToTable("Apartments");
                 });
@@ -158,7 +158,7 @@ namespace SiteManagement.Migrations
                     b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ManagerHumanId")
+                    b.Property<int>("ManagerHumanId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -228,14 +228,6 @@ namespace SiteManagement.Migrations
                         .HasForeignKey("BlockId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("SiteManagement.Models.Db.Entities.Human", "Human")
-                        .WithMany()
-                        .HasForeignKey("HomeOwnerId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Human");
                 });
 
             modelBuilder.Entity("SiteManagement.Models.Db.Entities.ApartmentDept", b =>
@@ -269,11 +261,13 @@ namespace SiteManagement.Migrations
 
             modelBuilder.Entity("SiteManagement.Models.Db.Entities.Human", b =>
                 {
-                    b.HasOne("SiteManagement.Models.Db.Entities.Apartment", null)
+                    b.HasOne("SiteManagement.Models.Db.Entities.Apartment", "Apartment")
                         .WithMany("Humans")
                         .HasForeignKey("ApartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Apartment");
                 });
 
             modelBuilder.Entity("SiteManagement.Models.Db.Entities.Site", b =>
@@ -287,7 +281,8 @@ namespace SiteManagement.Migrations
                     b.HasOne("SiteManagement.Models.Db.Entities.Human", "Human")
                         .WithMany()
                         .HasForeignKey("ManagerHumanId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("District");
 

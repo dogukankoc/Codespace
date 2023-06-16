@@ -1,4 +1,6 @@
-﻿namespace SiteManagement.Models.Db.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace SiteManagement.Models.Db.Entities
 {
     public class Human
     {

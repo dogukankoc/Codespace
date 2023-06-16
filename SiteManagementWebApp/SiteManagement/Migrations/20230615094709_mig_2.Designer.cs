@@ -10,8 +10,8 @@ using SiteManagement.Models.Db;
 namespace SiteManagement.Migrations
 {
     [DbContext(typeof(SiteManagementDbContext))]
-    [Migration("20230614154614_AddedRelationship")]
-    partial class AddedRelationship
+    [Migration("20230615094709_mig_2")]
+    partial class mig_2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,7 +155,7 @@ namespace SiteManagement.Migrations
                     b.Property<string>("Adress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DistrcitIdId")
+                    b.Property<int>("DistrictId")
                         .HasColumnType("int");
 
                     b.Property<int>("ManagerHumanId")
@@ -166,7 +166,10 @@ namespace SiteManagement.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DistrcitIdId");
+                    b.HasIndex("DistrictId")
+                        .IsUnique();
+
+                    b.HasIndex("ManagerHumanId");
 
                     b.ToTable("Sites");
                 });
@@ -267,12 +270,21 @@ namespace SiteManagement.Migrations
 
             modelBuilder.Entity("SiteManagement.Models.Db.Entities.Site", b =>
                 {
-                    b.HasOne("SiteManagement.Models.Db.Entities.District", "DistrcitId")
-                        .WithMany()
-                        .HasForeignKey("DistrcitIdId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                    b.HasOne("SiteManagement.Models.Db.Entities.District", "District")
+                        .WithOne("Site")
+                        .HasForeignKey("SiteManagement.Models.Db.Entities.Site", "DistrictId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
-                    b.Navigation("DistrcitId");
+                    b.HasOne("SiteManagement.Models.Db.Entities.Human", "Human")
+                        .WithMany()
+                        .HasForeignKey("ManagerHumanId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("District");
+
+                    b.Navigation("Human");
                 });
 
             modelBuilder.Entity("SiteManagement.Models.Db.Entities.Worker", b =>
@@ -294,6 +306,11 @@ namespace SiteManagement.Migrations
             modelBuilder.Entity("SiteManagement.Models.Db.Entities.Block", b =>
                 {
                     b.Navigation("Apartments");
+                });
+
+            modelBuilder.Entity("SiteManagement.Models.Db.Entities.District", b =>
+                {
+                    b.Navigation("Site");
                 });
 
             modelBuilder.Entity("SiteManagement.Models.Db.Entities.Province", b =>

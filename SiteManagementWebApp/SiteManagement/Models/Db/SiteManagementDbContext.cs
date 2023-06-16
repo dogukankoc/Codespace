@@ -6,6 +6,7 @@ using SiteManagement;
 using Microsoft.IdentityModel.Protocols;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 
 namespace SiteManagement.Models.Db
 {
@@ -26,15 +27,24 @@ namespace SiteManagement.Models.Db
         {
             optionsBuilder.UseSqlServer(AppSettings.ConnectionString);
         }
-        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            foreach (var relationship in modelbuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
 
-            base.OnModelCreating(modelbuilder);
+            base.OnModelCreating(modelBuilder);
+
+            //modelBuilder.Entity<Site>()
+            //    .HasOne(c => c.District)   
+            //    .WithOne(c => c.Site)
+            //    .HasForeignKey<Site>(c => c.DistrictId); //CalisanAdresi Depentend olacak burada bildiridk ve Id kolonunun foreign key olduğunu söyledik. Primary key özelliği ezilmesin diye .HasKey ile primary key olduğunu da bildirmemiz gerek
+
+            //modelBuilder.Entity<District>()
+            //    .HasKey(c => c.Id); //CalisanAdresi entity'sindeki Id kolonunun Primary key olduğunu bildirmiş olduk.
         }
+
     }
 
     

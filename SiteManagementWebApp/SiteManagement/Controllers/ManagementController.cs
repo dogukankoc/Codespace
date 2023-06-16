@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
+using SiteManagement.Models.DTOs;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,7 +20,7 @@ namespace SiteManagement.Controllers
             return RedirectToAction("Login", "Auth");
         }
         
-        public IActionResult SiteCreate()
+        public IActionResult CreateNewSite()
         {
 
             var context = new SiteManagementDbContext();
@@ -27,6 +28,36 @@ namespace SiteManagement.Controllers
             ViewBag.KategoriListesi = new SelectList(Kategoriler, "Id", "Name");
             return View();
         }
+
+        [HttpPost]
+        public IActionResult CreateNewSite(CreateSiteDTO createSiteDTO)
+        {
+            using (var context = new SiteManagementDbContext())
+            {
+                var site = new Site()
+                {
+                    Name = createSiteDTO.Name,
+                    DistrictId = createSiteDTO.DistrictId,
+                    Adress = createSiteDTO.Adress
+                };
+
+                context.Sites.Add(site);
+                context.SaveChanges();
+            }
+            return View();
+        }
+
+        public IActionResult SiteList()
+        {
+            using (var context = new SiteManagementDbContext())
+            {
+                ViewBag.SiteList = context.Sites.ToList();
+                ViewBag.BlockList = context.Blocks.ToList();
+
+            }
+            return View();
+        }
+
         public IActionResult GetSubCategories(int categoryId)
         {
             using (var context = new SiteManagementDbContext())
