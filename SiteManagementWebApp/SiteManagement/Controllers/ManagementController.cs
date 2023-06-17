@@ -13,13 +13,13 @@ namespace SiteManagement.Controllers
     {
         public IActionResult Index()
         {
-            if(HttpContext.Session.GetString("UserSession") != null)
+            if (HttpContext.Session.GetString("UserSession") != null)
             {
                 return View();
             }
             return RedirectToAction("Login", "Auth");
         }
-        
+
         public IActionResult CreateNewSite()
         {
 
@@ -45,6 +45,17 @@ namespace SiteManagement.Controllers
                 context.SaveChanges();
             }
             return RedirectToAction("SiteList");
+        }
+        [HttpPost]
+        public IActionResult DeleteSite(int siteId)
+        {
+            using (var context = new SiteManagementDbContext())
+            {
+                var toBeDeletedSite = context.Sites.FirstOrDefault(x => x.Id == siteId);
+                context.Sites.Remove(toBeDeletedSite);
+                return Ok(context.SaveChanges());
+            }
+            
         }
 
         public IActionResult SiteList()

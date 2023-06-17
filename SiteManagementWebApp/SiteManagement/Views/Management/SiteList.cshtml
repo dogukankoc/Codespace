@@ -4,20 +4,16 @@
         float: left;
         width: 40%;
         margin: 10px;
-        position:absolute;
-        top:10%;
-        left:29%;
+        position: absolute;
+        top: 10%;
+        left: 29%;
     }
 
-    .btn1{
-        float:right;
-        margin:5px;
+    .btn1 {
+        float: right;
+        margin: 5px;
     }
 
-
-    
-
-    
 </style>
 
 <a style="float:right; margin:10px;" href="https://localhost:44309/management/createnewsite"><button type="button" class="btn btn-success">Site Oluştur</button></a>
@@ -31,14 +27,59 @@
         {
             <li class="list-group-item ">
                 @item.Name
-                <button type="button" class="btn btn-outline-danger btn1">Sil</button> <button type="button" class="btn btn-outline-success btn1">Düzenle</button>
+                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="DeleteSite(@item.Id)">
+                    Sil
 
+                </button>
+                <button type="button" class="btn btn-outline-success btn1">Düzenle </button>
             </li>
-
         }
     </ul>
 </div>
 
+<script type="text/javascript">
+    
+    function DeleteSite(siteId) {
+
+        Swal.fire({
+            title: 'Silmek istediğine emin misin?',
+            text: " ",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Evet'
+            
+        }).then((result) => {
+            if (result.isConfirmed) {
+
+                $.ajax(
+                    {
+                        type: "post",
+                        url: '@Url.Action("DeleteSite", "Management")',
+                        data: { siteId: siteId },
+                        success: function (data) {
+
+                            Swal.fire(
+                                'Silindi!',
+                                'Site silme işlemi başarı ile tamamlandı.'
+                            )
+
+                            setTimeout(function () {
+                                window.location.href = "sitelist"
+                            }, 2000);
+
+                        },
+                        error: function () {
+                            alert("Hata");
+                        }
+                    });
+    
+            }
+        })
+
+    }
+</script>
 
 
 
