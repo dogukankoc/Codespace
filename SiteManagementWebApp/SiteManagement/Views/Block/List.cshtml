@@ -1,0 +1,41 @@
+﻿
+<style>
+    .ul {
+        float: left;
+        width: 40%;
+        margin: 10px;
+        position: absolute;
+        top: 10%;
+        left: 29%;
+    }
+
+    .btn1 {
+        float: right;
+        margin: 5px;
+    }
+
+</style>
+
+
+
+
+<a style="float:right; margin:10px;" href=" https://localhost:44309/block/createblock/@ViewBag.SiteId"><button type="button" class="btn btn-success">Blok Ekle</button></a>
+
+<div class="ul">
+    <ul class="list-group ">
+        @foreach (var item in ViewBag.BlockList)
+        {
+            <li class="list-group-item ">
+                @item.BlockName
+
+                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="DeleteBlock(@item.Id)">
+                    Sil
+                </button>
+
+                <a href="#"><button type="button" class="btn btn-outline-warning btn1">Düzenle </button></a>
+                <a href="#"><button type="button" class="btn btn-outline-success btn1">Daire Ekle</button></a>
+
+            </li>
+        }
+    </ul>
+</div>
