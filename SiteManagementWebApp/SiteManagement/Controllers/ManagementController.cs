@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
@@ -55,30 +56,63 @@ namespace SiteManagement.Controllers
                 context.Sites.Remove(toBeDeletedSite);
                 return Ok(context.SaveChanges());
             }
+
+        }
+
+        public IActionResult UpdateSite(int id)
+        {
+            using (var context = new SiteManagementDbContext())
+            {
+                var site = context.Sites
+                    .Include(x => x.District)
+                    .Where(x => x.Id == id)
+                    .Select(x => new UpdateSiteDTO
+                    {
+                        Id = x.Id,
+                        SiteName = x.Name,
+                        DistrictId = x.DistrictId,
+                        SiteAdress = x.Adress,
+                        CityId = x.District.ProvinceId
+                    }).FirstOrDefault();
+                return View(site);
+            }
+
             
+        }
+        [HttpPost]
+        public IActionResult UpdateSite(UpdateSiteDTO updateSiteDTO)
+        {
+            using (var context = new SiteManagementDbContext())
+            {
+              var toBeUpdatedSite =  context.Sites.FirstOrDefault(x => x.Id == updateSiteDTO.Id);
+                toBeUpdatedSite.Name = updateSiteDTO.SiteName;
+                toBeUpdatedSite.Adress = updateSiteDTO.SiteAdress;
+                toBeUpdatedSite.DistrictId = updateSiteDTO.DistrictId;
+                context.SaveChanges();
+
+            }
+            return RedirectToAction("SiteList");
         }
 
         public IActionResult SiteList()
         {
             using (var context = new SiteManagementDbContext())
             {
-                ViewBag.SiteList = context.Sites.ToList();
-                ViewBag.BlockList = context.Blocks.ToList();
+                ViewBag.SiteList = context.Sites.OrderByDescending(x => x.Id).ToList();  
 
             }
             return View();
         }
 
-        public IActionResult GetSubCategories(int categoryId)
+        public IActionResult GetDistricts(int cityId)
         {
             using (var context = new SiteManagementDbContext())
             {
-                List<District> altkategoriler = context.Districts.Where(d => d.ProvinceId == categoryId).ToList();
-                return Json(altkategoriler);
+                return Json(context.Districts.Where(d => d.ProvinceId == cityId).ToList());
             }
         }
 
-        public IActionResult GetCategories()
+        public IActionResult GetCities()
         {
             using (var context = new SiteManagementDbContext())
             {

@@ -53,6 +53,7 @@ namespace SiteManagement
                     name: "default",
                     pattern: "{controller=Auth}/{action=Login}/{id?}");
 
+                //endpoints.MapControllerRoute("UpdateSite","{controller=Management}/{action=UpdateSite}/{id}");
                 endpoints.MapControllerRoute("Login", "giris", new { controller = "Auth", action = "Login" });
                 endpoints.MapControllerRoute("Home", "anasayfa", new { controller = "Home", action = "Index" });
                 endpoints.MapControllerRoute("Register", "kayitol", new { controller = "Auth", action = "register" });

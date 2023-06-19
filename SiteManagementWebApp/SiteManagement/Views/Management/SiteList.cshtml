@@ -18,9 +18,6 @@
 
 <a style="float:right; margin:10px;" href="https://localhost:44309/management/createnewsite"><button type="button" class="btn btn-success">Site Oluştur</button></a>
 
-
-
-
 <div class="ul">
     <ul class="list-group ">
         @foreach (var item in ViewBag.SiteList)
@@ -29,18 +26,16 @@
                 @item.Name
                 <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="DeleteSite(@item.Id)">
                     Sil
-
                 </button>
-                <button type="button" class="btn btn-outline-success btn1">Düzenle </button>
+
+                <a href="https://localhost:44309/management/UpdateSite/@item.Id"><button type="button" class="btn btn-outline-success btn1">Düzenle </button></a>
             </li>
         }
     </ul>
 </div>
 
 <script type="text/javascript">
-    
     function DeleteSite(siteId) {
-
         Swal.fire({
             title: 'Silmek istediğine emin misin?',
             text: " ",
@@ -49,7 +44,6 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Evet'
-            
         }).then((result) => {
             if (result.isConfirmed) {
 
@@ -74,10 +68,8 @@
                             alert("Hata");
                         }
                     });
-    
             }
         })
-
     }
 </script>
 

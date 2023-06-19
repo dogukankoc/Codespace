@@ -26,13 +26,13 @@
                 $.ajax(
                     {
                         type: "post",
-                        url: '@Url.Action("GetCategories", "Management")',
-                        success: function (categories) {
-                            $.each(categories, function (index, category) {
-                                $('#Categories').append($('<option/>',
+                        url: '@Url.Action("GetCities", "Management")',
+                        success: function (cities) {
+                            $.each(cities, function (index, city) {
+                                $('#Cities').append($('<option/>',
                                     {
-                                        value: category.id,
-                                        text: category.name
+                                        value: city.id,
+                                        text: city.name
                                     }));
                             }
                             );
@@ -46,27 +46,27 @@
 
 
                 // Kategori seçildiğinde bu fonksiyonumuz çalışmaya başlayacaktır.
-                $('#Categories').change(function () {
+                $('#Cities').change(function () {
                     // Seçilen Kategorinin ID sini alıyoruz.
-                    var categoryId = $(this).val();
+                    var cityId = $(this).val();
                     /*Seçilen KategoriID sini kullanarak
                     Kategori(Controller) sınıfı içerisindeki AltKategorileriGetir
                     Action metodunu çağırıyoruz.
                     Bu metoddan dönen liste sayesinde .each fonksiyonu ile
                     AltKategori isimli DropDownList nesnesini dolduruyoruz.*/
-                    if (categoryId != null && categoryId != '') {
+                    if (cityId != null && cityId != '') {
                         $.ajax({
                             type: "post",
-                            url: '@Url.Action("GetSubCategories", "Management")',
-                            data: { categoryId: categoryId },
-                            success: function (subCategories) {
+                            url: '@Url.Action("GetDistricts", "Management")',
+                            data: { cityId: cityId },
+                            success: function (districts) {
 
-                                $('#SubCategories').find('option').remove().end().append('<option selected="selected">İlçe Seçin</option>');
+                                $('#Districts').find('option').remove().end().append('<option selected="selected">İlçe Seçin</option>');
 
-                                $.each(subCategories, function (index, category) {
-                                    $('#SubCategories').append($('<option/>', {
-                                        value: category.provinceId,
-                                        text: category.name
+                                $.each(districts, function (index, district) {
+                                    $('#Districts').append($('<option/>', {
+                                        value: district.id,
+                                        text: district.name
                                     }));
                                 });
                             },
@@ -81,11 +81,11 @@
             });
         </script>
 
-        <select class="form-select" id="Categories" >
+        <select class="form-select" id="Cities" >
             <option selected>Şehir Seçin</option>
         </select>
         <br />
-        <select class="form-select" id="SubCategories" asp-for="DistrictId">
+        <select class="form-select" id="Districts" asp-for="DistrictId">
             <option selected>İlçe Seçin</option>
         </select>
         <br />
