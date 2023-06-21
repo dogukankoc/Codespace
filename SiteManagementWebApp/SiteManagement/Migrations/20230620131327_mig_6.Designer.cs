@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SiteManagement.Models.Db;
 
 namespace SiteManagement.Migrations
 {
     [DbContext(typeof(SiteManagementDbContext))]
-    partial class SiteManagementDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230620131327_mig_6")]
+    partial class mig_6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,7 +31,7 @@ namespace SiteManagement.Migrations
                     b.Property<int>("BlockId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("HomeOwnerId")
+                    b.Property<int>("HomeOwnerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -234,7 +236,8 @@ namespace SiteManagement.Migrations
                     b.HasOne("SiteManagement.Models.Db.Entities.Human", "Human")
                         .WithMany()
                         .HasForeignKey("HomeOwnerId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Human");
                 });

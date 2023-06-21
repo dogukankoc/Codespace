@@ -73,7 +73,7 @@ namespace SiteManagement.Controllers
 
         [Route("block/updateblock/{siteId}/{blockId}")]
         [HttpPost]
-        public IActionResult UpdateBlock(UpdateBlockDTO updateBlockDTO/*,int siteId*/)
+        public IActionResult UpdateBlock(UpdateBlockDTO updateBlockDTO)
         {
             using(var context = new SiteManagementDbContext())
             {
