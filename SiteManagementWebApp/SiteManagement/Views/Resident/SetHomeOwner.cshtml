@@ -1,0 +1,52 @@
+﻿@model SiteManagement.Models.DTOs.CreateSiteDTO;
+
+<style>
+    #position {
+        position: absolute;
+        left: 28%;
+        top: 10%;
+    }
+
+</style>
+<br />
+<div style="width:40%;" id="position">
+    <form class="avarage" asp-action="SetHomeOwner" asp-controller="Resident" method="post">
+        <h5>Daire sorumlusunu belirleyin</h5> <br />
+        <select class="form-select" id="Responsible">
+            <option selected>Daire Sorumlusu Seçin</option>
+            @foreach (var item in ViewBag.ResidentList)
+            {
+                <option value="@item.Id">@item.NameSurname</option>
+            }
+        </select>
+        <br />
+        <button type="submit" onclick="setOwner()" class="btn btn-outline-primary" style="width:25rem; position:absolute; right:2%;">Kaydet</button> <br /> <br />
+        <h6>Vazmı geçtiniz <a href="#">geri dönün</a> </h6>
+    </form>
+
+</div>
+<script type="text/javascript">
+    function setOwner() {
+        var responsible = $('#Responsible').val();
+        console.log(window.location.href.split('/').slice(-1))
+        console.log(responsible)
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("SetHomeOwnerPost", "Resident")',
+            data: { responsible: responsible, apartmentId: window.location.href.split('/').slice(-1) }, //Current url, slice(-1) = Url'in sonunu kestik.
+            success: function (data) {
+                // Stuff
+            },
+            error: function (data) {
+                // Stuff
+            }
+        });
+    }
+    
+
+</script>
+
+
+
+
+

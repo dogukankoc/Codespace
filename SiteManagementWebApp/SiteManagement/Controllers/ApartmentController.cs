@@ -21,6 +21,8 @@ namespace SiteManagement.Controllers
             {
                 ViewBag.ApartmentList = context.Apartments.Where(x => x.BlockId == blockId).ToList();
                 ViewBag.BlockId = blockId;
+                //
+                //context.Apartments.Where(a => a.)
                 return View();
             }
         }
@@ -59,8 +61,6 @@ namespace SiteManagement.Controllers
                 return Ok(context.SaveChanges());
             }
         }
-
-        
 
         [Route("apartment/updateapartment/{blockId}/{apartmentId}")]
         public IActionResult UpdateApartment(int blockId, int apartmentId)

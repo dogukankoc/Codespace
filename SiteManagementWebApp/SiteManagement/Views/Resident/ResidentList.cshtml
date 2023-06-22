@@ -15,25 +15,25 @@
 
 </style>
 
-<a style="float:right; margin:10px;" href="https://localhost:44309/apartment/createapartment/@ViewBag.BlockId"><button type="button" class="btn btn-success">Daire Ekle</button></a>
+<a style="float:right; margin:10px;" href="https://localhost:44309/resident/createperson/@ViewBag.ApartmentId"><button type="button" class="btn btn-success">Kişi Ekle</button></a>
+<a style="float:right; margin:10px;" href="https://localhost:44309/resident/sethomeowner/@ViewBag.ApartmentId"><button type="button" class="btn btn-success">Daire Sorumlusu</button></a>
 
 <div class="ul">
     <ul class="list-group ">
-        @foreach (var item in ViewBag.ApartmentList)
+        @foreach (var item in ViewBag.ResidentList)
         {
             <li class="list-group-item ">
-                @item.Name
+                @item.NameSurname
 
-                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deleteApartment(@item.Id)">Sil</button>
-                <a href="https://localhost:44309/apartment/updateapartment/@ViewBag.BlockId/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle</button></a>
-                <a href="https://localhost:44309/resident/residentlist/@item.Id"><button type="button" class="btn btn-outline-success btn1">Yaşayanlar</button></a>
+                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deletePerson(@item.Id)">Sil</button>
+                <a href="https://localhost:44309/resident/updateperson/@ViewBag.ApartmentId/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle</button></a>
             </li>
         }
     </ul>
 </div>
 
 <script type="text/javascript">
-    function deleteApartment(apartmentId) {
+    function deletePerson(personId) {
         Swal.fire({
             title: 'Silmek istediğine emin misin?',
             text: " ",
@@ -44,17 +44,17 @@
             confirmButtonText: 'Evet'
         }).then((result) => {
             if (result.isConfirmed) {
-
+                
                 $.ajax(
                     {
                         type: "post",
-                        url: '@Url.Action("DeleteApartment", "Apartment")',
-                        data: { apartmentId: apartmentId },
+                        url: '@Url.Action("DeletePerson", "Resident")',
+                        data: { personId: personId },
                         success: function (data) {
 
                             Swal.fire({
                                 title: 'Silindi!',
-                                text:'Daire silme işlemi başarı ile tamamlandı.',
+                                text: 'Daire silme işlemi başarı ile tamamlandı.',
                                 showConfirmButton: false
                             }
                             )
