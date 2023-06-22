@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
@@ -21,8 +22,9 @@ namespace SiteManagement.Controllers
             {
                 ViewBag.ApartmentList = context.Apartments.Where(x => x.BlockId == blockId).ToList();
                 ViewBag.BlockId = blockId;
-                //
-                //context.Apartments.Where(a => a.)
+
+                ViewBag.HomeOwnerList = context.Apartments.Where(a => a.BlockId == blockId).Include(a => a.Humans).ToList();
+                
                 return View();
             }
         }

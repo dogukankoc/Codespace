@@ -1,12 +1,10 @@
-﻿namespace SiteManagement.Models.Db.Entities
+﻿namespace SiteManagement.Models.DTOs
 {
-    public class Worker
+    public class UpdateWorkerDTO
     {
-        public int Id { get; set; }
+        public int WorkerId { get; set; }
         public int SiteId { get; set; }
         public string NameSurname { get; set; }
         public string Duty { get; set; }
-
-
     }
 }

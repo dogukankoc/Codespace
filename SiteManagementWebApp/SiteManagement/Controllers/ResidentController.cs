@@ -99,18 +99,18 @@ namespace SiteManagement.Controllers
             return View();
         }
 
-        [Route("resident/sethomeowner")]
+        //[Route("resident/sethomeowner/")]
         [HttpPost]
-        public IActionResult SetHomeOwnerPost(int responsible, int apartmentId)
+        public IActionResult SetHomeOwnerPost(int responsible, int apartmentID)
         {
             using (var context = new SiteManagementDbContext())
             {
-                var homeOwner = context.Apartments.FirstOrDefault(a => a.Id == apartmentId);
+                var homeOwner = context.Apartments.FirstOrDefault(a => a.Id == apartmentID);
                 homeOwner.HomeOwnerId= responsible;
-                context.SaveChanges();
-                return View();
-
+                context.SaveChanges();  
             }
+            // return RedirectToAction("residentlist", new {apartmentId = apartmentID}); //Ajax succes data bekliyor, burayı ezer.
+            return Ok();
         }
 
         

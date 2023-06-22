@@ -1,4 +1,9 @@
-﻿<style>
+﻿@using SiteManagement.Models.Db.Entities;
+@model int;
+@{
+    var workers = ViewBag.WorkerList as List<Worker>; //ViewBag.WorkerList = List olacak 
+}
+<style>
     .ul {
         float: left;
         width: 40%;
@@ -15,35 +20,28 @@
 
 </style>
 
-<a style="float:right; margin:10px;" href="https://localhost:44309/apartment/createapartment/@ViewBag.BlockId"><button type="button" class="btn btn-success">Daire Ekle</button></a>
+
+<a style="float:right; margin:10px;" href="https://localhost:44309/worker/createworker/@Model"><button type="button" class="btn btn-success">Görevli Ekle</button></a>
 
 <div class="ul">
     <ul class="list-group ">
-        @foreach (var item in ViewBag.ApartmentList)
+        @foreach (var item in workers)  
         {
             <li class="list-group-item ">
-                @item.Name
-                
-                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deleteApartment(@item.Id)">Sil</button>
-                <a href="https://localhost:44309/apartment/updateapartment/@ViewBag.BlockId/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle</button></a>
-                <a href="https://localhost:44309/resident/residentlist/@item.Id"><button type="button" class="btn btn-outline-success btn1">Yaşayanlar</button></a>
-                @if (ViewBag.HomeOwnerList != null)
-                {
-                    @foreach (var item2 in ViewBag.HomeOwnerList)
-                    {
-                        @if (item2.HomeOwnerId != null && item == item2)
-                        {
-                            <p style="color:dodgerblue;"><strong>Daire Sorumlusu:  </strong>@item2.Human.NameSurname </p>
-                        }
-                    }
-                }
+                @item.NameSurname
+                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deleteWorker(@item.Id)">
+                    Sil
+                </button>
+
+                <a href="https://localhost:44309/worker/updateworker/@Model/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle </button></a>
+                <p style="color:dodgerblue;"><strong>Görevi:  </strong>@item.Duty </p>
             </li>
         }
     </ul>
 </div>
 
 <script type="text/javascript">
-    function deleteApartment(apartmentId) {
+    function deleteWorker(workerId) {
         Swal.fire({
             title: 'Silmek istediğine emin misin?',
             text: " ",
@@ -58,8 +56,8 @@
                 $.ajax(
                     {
                         type: "post",
-                        url: '@Url.Action("DeleteApartment", "Apartment")',
-                        data: { apartmentId: apartmentId },
+                        url: '@Url.Action("DeleteWorker", "Worker")',
+                        data: { workerId: workerId },
                         success: function (data) {
 
                             Swal.fire({
@@ -71,7 +69,6 @@
                             setTimeout(function () {
                                 window.location.reload(false)
                             }, 2000);
-
                         },
                         error: function () {
                             alert("Hata");
@@ -81,3 +78,7 @@
         })
     }
 </script>
+
+
+
+
