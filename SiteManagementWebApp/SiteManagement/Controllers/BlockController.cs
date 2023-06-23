@@ -24,9 +24,9 @@ namespace SiteManagement.Controllers
             using (var context = new SiteManagementDbContext())
             {
                 ViewBag.BlockList = context.Blocks.Where(x => x.SiteId == siteId).ToList();
-
+                
                 ViewBag.SiteId = siteId;
-
+                ViewBag.SiteName = context.Sites.Where(s => s.Id == siteId).Select(s => s.Name).FirstOrDefault();
             }
             return View();
         }
