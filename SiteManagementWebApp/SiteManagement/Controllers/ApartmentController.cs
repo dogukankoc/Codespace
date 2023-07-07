@@ -22,6 +22,7 @@ namespace SiteManagement.Controllers
             {
                 ViewBag.ApartmentList = context.Apartments.Where(x => x.BlockId == blockId).ToList();
                 ViewBag.BlockId = blockId;
+                ViewBag.BlockName = context.Blocks.Where(b => b.Id == blockId).Select(w => w.BlockName).FirstOrDefault();
 
                 ViewBag.HomeOwnerList = context.Apartments.Where(a => a.BlockId == blockId).Include(a => a.Humans).ToList();
                 
@@ -79,6 +80,9 @@ namespace SiteManagement.Controllers
                     }).FirstOrDefault();
                 return View(apartment);
             }
+
+
+
         }
 
         [Route("apartment/updateapartment/{blockId}/{apartmentId}")]

@@ -30,7 +30,7 @@
             data: { responsible: responsible, apartmentId: apartmentId }, //Current url, slice(-1) = Url'in sonunu kestik.
             success: function (data) {
                 window.location.href = 'https://localhost:44309/resident/residentlist/'+apartmentId;
-               // $('#Owner_' + @ViewBag.ResidentList.Id).attr("selected", true);
+                $('#Owner_' + @ViewBag.ResidentList.Id).attr("selected", true);
             },
             error: function (data) {
                 // Stuff

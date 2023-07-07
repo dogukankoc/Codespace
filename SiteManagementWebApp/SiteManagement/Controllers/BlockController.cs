@@ -4,6 +4,7 @@ using Microsoft.VisualBasic;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
+using SiteManagement.Services;
 using System;
 using System.Linq;
 using System.Security.Permissions;
@@ -13,21 +14,27 @@ namespace SiteManagement.Controllers
 {
     
     public class BlockController : Controller
+
     {
+        readonly SiteService _siteService;
+        public BlockController(SiteService siteService)
+        {
+            _siteService = siteService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
         [Route("block/list/{siteId}")]
         public IActionResult List(int siteId)
+
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                ViewBag.BlockList = context.Blocks.Where(x => x.SiteId == siteId).ToList();
-                
-                ViewBag.SiteId = siteId;
-                ViewBag.SiteName = context.Sites.Where(s => s.Id == siteId).Select(s => s.Name).FirstOrDefault();
-            }
+            var siteWithBlocks = _siteService.GetSiteWithBlocks(siteId);
+
+            ViewBag.Site = siteWithBlocks;
+
+            
             return View();
         }
         

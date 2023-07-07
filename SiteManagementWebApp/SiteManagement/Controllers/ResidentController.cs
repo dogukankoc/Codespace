@@ -21,6 +21,7 @@ namespace SiteManagement.Controllers
             {
                 ViewBag.ResidentList = context.Humans.Where(h => h.ApartmentId == apartmentId).ToList();
                 ViewBag.ApartmentId = apartmentId;
+                ViewBag.ApartmentName = context.Apartments.Where(a => a.Id == apartmentId).Select(a => a.Name).FirstOrDefault();
             }
             return View();
         }

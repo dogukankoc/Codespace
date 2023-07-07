@@ -1,4 +1,8 @@
-﻿<style>
+﻿@using SiteManagement.Models.Db.Entities;
+@{
+    var site = ViewBag.Site as Site;
+}
+<style>
     .ul {
         float: left;
         width: 40%;
@@ -17,16 +21,16 @@
 
 <a style="float:right; margin:10px;" href=" https://localhost:44309/block/createblock/@ViewBag.SiteId"><button type="button" class="btn btn-success">Blok Ekle</button></a> <br />
 
-<h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@ViewBag.SiteName Sitesi Blokları</h4>
+<h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@site.Name Sitesi Blokları</h4>
 
 <div class="ul">
     <ul class="list-group ">
-        @foreach (var item in ViewBag.BlockList)
+        @foreach (var item in site.Blocks)
         {
             <li class="list-group-item ">
                 @item.BlockName
 
-                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deleteBlock(@item.Id,@ViewBag.SiteId)">
+                <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deleteBlock(@item.Id,@site.Id)">
                     Sil
                 </button>
 

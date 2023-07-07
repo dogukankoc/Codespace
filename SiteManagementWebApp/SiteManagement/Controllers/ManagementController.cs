@@ -96,6 +96,7 @@ namespace SiteManagement.Controllers
 
         public IActionResult SiteList()
         {
+
             using (var context = new SiteManagementDbContext())
             {
                 ViewBag.SiteList = context.Sites.OrderByDescending(x => x.Id).ToList();  
