@@ -37,6 +37,7 @@ namespace SiteManagement
             services.AddSession();
             services.AddTransient<SiteService>();
             services.AddTransient<BlockService>();
+            services.AddTransient<CommonService>();
 
             services.AddDbContext<SiteManagementDbContext>();
         }

@@ -1,17 +1,24 @@
-﻿    using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using SiteManagement.Models.Db;
-using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
-using System.Collections.Generic;
-using System.Linq;
+using SiteManagement.Services;
 
 namespace SiteManagement.Controllers
 {
     public class ManagementController : Controller
     {
+        readonly SiteManagementDbContext _context;
+        readonly SiteService _siteService;
+        readonly CommonService _commonService;
+
+
+        public ManagementController(SiteManagementDbContext context, SiteService siteService, CommonService commonService)
+        {
+            _context = context;
+            _siteService = siteService;
+            _commonService = commonService;
+        }
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("UserSession") != null)
@@ -21,104 +28,51 @@ namespace SiteManagement.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+        public IActionResult SiteList()
+        {
+            ViewBag.SiteList = _siteService.GetSiteListOrdered();
+            return View();
+        }
+
         public IActionResult CreateNewSite()
         {
-
-            var context = new SiteManagementDbContext();
-            List<Province> Kategoriler = context.Provinces.ToList();
-            ViewBag.KategoriListesi = new SelectList(Kategoriler, "Id", "Name");
             return View();
         }
 
         [HttpPost]
         public IActionResult CreateNewSite(CreateSiteDTO createSiteDTO)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                var site = new Site()
-                {
-                    Name = createSiteDTO.Name,
-                    DistrictId = createSiteDTO.DistrictId,
-                    Adress = createSiteDTO.Adress
-                };
-
-                context.Sites.Add(site);
-                context.SaveChanges();
-            }
+            _siteService.CreateNewSite(createSiteDTO);
             return RedirectToAction("SiteList");
-        }
-        [HttpPost]
-        public IActionResult DeleteSite(int siteId)
-        {
-            using (var context = new SiteManagementDbContext())
-            {
-                var toBeDeletedSite = context.Sites.FirstOrDefault(x => x.Id == siteId);
-                context.Sites.Remove(toBeDeletedSite);
-                return Ok(context.SaveChanges());
-            }
-
         }
 
         public IActionResult UpdateSite(int id)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                var site = context.Sites
-                    .Include(x => x.District)
-                    .Where(x => x.Id == id)
-                    .Select(x => new UpdateSiteDTO
-                    {
-                        Id = x.Id,
-                        SiteName = x.Name,
-                        DistrictId = x.DistrictId,
-                        SiteAdress = x.Adress,
-                        CityId = x.District.ProvinceId
-                    }).FirstOrDefault();
-                return View(site);
-            }
-
-            
+            return View(_siteService.GetSiteById(id));
         }
+
         [HttpPost]
         public IActionResult UpdateSite(UpdateSiteDTO updateSiteDTO)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-              var toBeUpdatedSite =  context.Sites.FirstOrDefault(x => x.Id == updateSiteDTO.Id);
-                toBeUpdatedSite.Name = updateSiteDTO.SiteName;
-                toBeUpdatedSite.Adress = updateSiteDTO.SiteAdress;
-                toBeUpdatedSite.DistrictId = updateSiteDTO.DistrictId;
-                context.SaveChanges();
-
-            }
+            _siteService.UpdateSite(updateSiteDTO);
             return RedirectToAction("SiteList");
         }
 
-        public IActionResult SiteList()
+        [HttpPost]
+        public IActionResult DeleteSite(int siteId)
         {
-
-            using (var context = new SiteManagementDbContext())
-            {
-                ViewBag.SiteList = context.Sites.OrderByDescending(x => x.Id).ToList();  
-
-            }
-            return View();
+            _siteService.DeleteSite(siteId);
+            return Ok();
         }
 
         public IActionResult GetDistricts(int cityId)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                return Json(context.Districts.Where(d => d.ProvinceId == cityId).ToList());
-            }
+                return Json(_commonService.GetDistrictListByCityId(cityId));
         }
 
         public IActionResult GetCities()
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                return Json(context.Provinces.ToList());
-            }
+                return Json(_commonService.GetCities());
         }
 
     }
