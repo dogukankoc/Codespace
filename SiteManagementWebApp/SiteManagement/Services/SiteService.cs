@@ -8,12 +8,15 @@ namespace SiteManagement.Services
 {
     public class SiteService
     {
+
+        readonly SiteManagementDbContext _context;
+        public SiteService(SiteManagementDbContext context)
+        {
+            _context = context;
+        }
         public Site GetSiteWithBlocks(int siteId)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                return context.Sites.Include(x => x.Blocks).Where(x => x.Id == siteId).FirstOrDefault();
-            }
+                return _context.Sites.Include(x => x.Blocks).Where(x => x.Id == siteId).FirstOrDefault();
         }
     }
 }

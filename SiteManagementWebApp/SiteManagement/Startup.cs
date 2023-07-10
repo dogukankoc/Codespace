@@ -3,11 +3,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.IdentityModel.Tokens;
+using SiteManagement.Models.Db;
 using SiteManagement.Services;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,9 @@ namespace SiteManagement
             services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddSession();
             services.AddTransient<SiteService>();
+            services.AddTransient<BlockService>();
+
+            services.AddDbContext<SiteManagementDbContext>();
         }
 
 
