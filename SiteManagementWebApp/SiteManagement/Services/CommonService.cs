@@ -24,7 +24,5 @@ namespace SiteManagement.Services
         {
            return _context.Districts.Where(d => d.ProvinceId == cityId).ToList();
         }
-
-
     }
 }

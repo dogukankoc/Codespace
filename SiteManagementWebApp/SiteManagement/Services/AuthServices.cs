@@ -45,7 +45,6 @@ namespace SiteManagement.Services
             {
                 var userControl = context.Users.FirstOrDefault(x => x.Email == email);
                 password = EncryptHelper.SHA256Hash(password);
-                
 
                 if (userControl !=null && userControl.Password == password)
                 {

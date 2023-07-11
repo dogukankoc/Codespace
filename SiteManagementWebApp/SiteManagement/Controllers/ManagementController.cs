@@ -12,13 +12,13 @@ namespace SiteManagement.Controllers
         readonly SiteService _siteService;
         readonly CommonService _commonService;
 
-
         public ManagementController(SiteManagementDbContext context, SiteService siteService, CommonService commonService)
         {
             _context = context;
             _siteService = siteService;
             _commonService = commonService;
         }
+
         public IActionResult Index()
         {
             if (HttpContext.Session.GetString("UserSession") != null)
@@ -74,6 +74,5 @@ namespace SiteManagement.Controllers
         {
                 return Json(_commonService.GetCities());
         }
-
     }
 }

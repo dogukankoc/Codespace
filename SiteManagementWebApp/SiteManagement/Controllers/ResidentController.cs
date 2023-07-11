@@ -2,6 +2,7 @@
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
+using SiteManagement.Services;
 using System;
 using System.Linq;
 
@@ -9,19 +10,21 @@ namespace SiteManagement.Controllers
 {
     public class ResidentController : Controller
     {
-        public IActionResult Index()
+        readonly ResidentService _residentService;
+        readonly ApartmentService _apartmentService;
+        public ResidentController(ResidentService residentService, ApartmentService service)
         {
-            return View();
+            _residentService = residentService;
+            _apartmentService = service;
         }
 
         [Route("resident/residentlist/{apartmentId}")]
-        public IActionResult ResidentList(int apartmentId) 
+        public IActionResult ResidentList(int apartmentId)
         {
-            using(var context = new SiteManagementDbContext()) 
+            using (var context = new SiteManagementDbContext())
             {
                 ViewBag.ResidentList = context.Humans.Where(h => h.ApartmentId == apartmentId).ToList();
-                ViewBag.ApartmentId = apartmentId;
-                ViewBag.ApartmentName = context.Apartments.Where(a => a.Id == apartmentId).Select(a => a.Name).FirstOrDefault();
+                ViewBag.Apartment = context.Apartments.Where(a => a.Id == apartmentId).FirstOrDefault();
             }
             return View();
         }
@@ -37,83 +40,45 @@ namespace SiteManagement.Controllers
         [Route("resident/createperson/{apartmentId}")]
         public IActionResult CreatePerson(CreatePersonDTO createPersonDTO)
         {
-            using(var context = new SiteManagementDbContext())
-            {
-                var newPerson = new Human()
-                {
-                    NameSurname = createPersonDTO.NameSurname,
-                    ApartmentId = Convert.ToInt32(HttpContext.Request.Path.Value.Split("/").LastOrDefault())
-                };
-                context.Humans.Add(newPerson);
-                context.SaveChanges();
-                return RedirectToAction("ResidentList", new { apartmentId = newPerson.ApartmentId});
-            }
+            int apartmentId = Convert.ToInt32(HttpContext.Request.Path.Value.Split("/").LastOrDefault());
+            Human newPerson = _residentService.CreatePerson(createPersonDTO, apartmentId);
+
+            return RedirectToAction("ResidentList", new { apartmentId = newPerson.ApartmentId });
         }
 
         [HttpPost]
         public IActionResult DeletePerson(int personId)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                var toBeDeletedPerson = context.Humans.FirstOrDefault(a => a.Id == personId);
-                context.Humans.Remove(toBeDeletedPerson);
-                return Ok(context.SaveChanges());
-            }
-        }
-        
-        [Route("resident/updateperson/{apartmentId}/{personId}")]
-        public IActionResult UpdatePerson(int apartmentId, int personId)
-        {
-            using (var context = new SiteManagementDbContext())
-            {
-                var apartment = context.Humans
-                    .Where(a => a.Id == personId && a.ApartmentId == apartmentId)
-                    .Select(a => new UpdatePersonDTO
-                    {
-                        PersonId = a.Id,
-                        NameSurname = a.NameSurname,
-                        ApartmentId = a.ApartmentId,
-                    }).FirstOrDefault();
-                return View(apartment);
-            }
-        }
-
-        [Route("resident/updateperson/{apartmentId}/{personId}")]
-        [HttpPost]
-        public IActionResult UpdateApartment(UpdatePersonDTO updatePersonDTO)
-        {
-            using (var context = new SiteManagementDbContext())
-            {
-                var toBeUpdatedPerson = context.Humans.FirstOrDefault(a => a.Id == updatePersonDTO.PersonId);
-                toBeUpdatedPerson.NameSurname = updatePersonDTO.NameSurname;
-                context.SaveChanges();
-                return RedirectToAction("residentlist", new { apartmentId = toBeUpdatedPerson.ApartmentId });
-            }
-        }
-        [Route("resident/sethomeowner/{apartmentId}")]
-        public IActionResult SetHomeOwner(int apartmentId)
-        {
-            using (var context = new SiteManagementDbContext())
-            {
-                ViewBag.ResidentList = context.Humans.Where(h => h.ApartmentId == apartmentId).ToList();
-            }
-            return View();
-        }
-
-        //[Route("resident/sethomeowner/")]
-        [HttpPost]
-        public IActionResult SetHomeOwnerPost(int responsible, int apartmentID)
-        {
-            using (var context = new SiteManagementDbContext())
-            {
-                var homeOwner = context.Apartments.FirstOrDefault(a => a.Id == apartmentID);
-                homeOwner.HomeOwnerId= responsible;
-                context.SaveChanges();  
-            }
-            // return RedirectToAction("residentlist", new {apartmentId = apartmentID}); //Ajax succes data bekliyor, burayı ezer.
+            _residentService.DeletePerson(personId);
             return Ok();
         }
 
-        
+        [Route("resident/updateperson/{apartmentId}/{personId}")]
+        public IActionResult UpdatePerson(int apartmentId, int personId)
+        {
+            return View(_residentService.GetPersonByPersonIdandApartmentId(apartmentId, personId));
+        }
+
+        [Route("resident/updateperson/{apartmentId}/{personId}")]
+        [HttpPost]
+        public IActionResult UpdatePerson(UpdatePersonDTO updatePersonDTO)
+        {
+            Human toBeUpdatedPerson = _residentService.UpdatePerson(updatePersonDTO);
+            return RedirectToAction("residentlist", new { apartmentId = toBeUpdatedPerson.ApartmentId });
+        }
+
+        [Route("resident/sethomeowner/{apartmentId}")]
+        public IActionResult SetHomeOwner(int apartmentId)
+        {
+            ViewBag.ResidentList = _residentService.GetHomeOwnerById(apartmentId);
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult SetHomeOwnerPost(int responsible, int apartmentID)
+        {
+            _residentService.SetHomeOwner(responsible, apartmentID);
+            return RedirectToAction("residentlist", new { apartmentId = apartmentID }); //Ajax succes data bekliyor, burayı ezer.
+        }
     }
 }

@@ -1,4 +1,10 @@
-﻿<style>
+﻿@using SiteManagement.Models.Db.Entities;
+
+@{
+    var apartment = ViewBag.Apartment as Apartment;
+}
+
+<style>
     .ul {
         float: left;
         width: 40%;
@@ -15,10 +21,10 @@
 
 </style>
 
-<a style="float:right; margin:10px;" href="https://localhost:44309/resident/createperson/@ViewBag.ApartmentId"><button type="button" class="btn btn-success">Kişi Ekle</button></a>
-<a style="float:right; margin:10px;" href="https://localhost:44309/resident/sethomeowner/@ViewBag.ApartmentId"><button type="button" class="btn btn-success">Daire Sorumlusu</button></a> <br />
+<a style="float:right; margin:10px;" href="https://localhost:44309/resident/createperson/@apartment.Id"><button type="button" class="btn btn-success">Kişi Ekle</button></a>
+<a style="float:right; margin:10px;" href="https://localhost:44309/resident/sethomeowner/@apartment.Id"><button type="button" class="btn btn-success">Daire Sorumlusu</button></a> <br />
 
-<h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@ViewBag.ApartmentName Oturanlar Listesi</h4>
+<h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@apartment.Name Oturanlar Listesi</h4>
 
 <div class="ul">
     <ul class="list-group ">
@@ -28,7 +34,7 @@
                 @item.NameSurname
 
                 <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deletePerson(@item.Id)">Sil</button>
-                <a href="https://localhost:44309/resident/updateperson/@ViewBag.ApartmentId/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle</button></a>
+                <a href="https://localhost:44309/resident/updateperson/@apartment.Id/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle</button></a>
             </li>
         }
     </ul>

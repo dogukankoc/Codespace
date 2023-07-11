@@ -35,11 +35,13 @@ namespace SiteManagement
 
             services.AddControllersWithViews().AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
             services.AddSession();
+            services.AddDbContext<SiteManagementDbContext>();
+            services.AddTransient<CommonService>();
             services.AddTransient<SiteService>();
             services.AddTransient<BlockService>();
-            services.AddTransient<CommonService>();
-
-            services.AddDbContext<SiteManagementDbContext>();
+            services.AddTransient<ApartmentService>();
+            services.AddTransient<ResidentService>();
+            services.AddTransient<WorkerService>();
         }
 
 

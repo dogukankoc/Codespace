@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,12 +11,12 @@ namespace SiteManagement.Services
 {
     public class SiteService
     {
-
         readonly SiteManagementDbContext _context;
         public SiteService(SiteManagementDbContext context)
         {
             _context = context;
         }
+
         public Site GetSiteWithBlocks(int siteId)
         {
             return _context.Sites.Include(x => x.Blocks).Where(x => x.Id == siteId).FirstOrDefault();
@@ -25,8 +26,6 @@ namespace SiteManagement.Services
         {
             return _context.Sites.OrderByDescending(x => x.Id).ToList();
         }
-
-        
 
         public void CreateNewSite(CreateSiteDTO createSiteDTO)
         {
@@ -71,6 +70,16 @@ namespace SiteManagement.Services
             var toBeDeletedSite = _context.Sites.FirstOrDefault(x => x.Id == siteId);
             _context.Sites.Remove(toBeDeletedSite);
             _context.SaveChanges();
+        }
+
+        //public string GetSiteBySiteId(int siteId)
+        //{
+        //    return _context.Sites.Where(s => s.Id == siteId).FirstOrDefault();
+        //}
+
+        public Site GetSiteWithWorkers(int siteId)
+        {
+            return _context.Sites.Include(x => x.Workers).Where(x => x.Id == siteId).FirstOrDefault();
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿<style>
+﻿@using SiteManagement.Models.Db.Entities
+@{
+    var block = ViewBag.block as Block;
+}
+<style>
     .ul {
         float: left;
         width: 40%;
@@ -15,24 +19,24 @@
 
 </style>
 
-<a style="float:right; margin:10px;" href="https://localhost:44309/apartment/createapartment/@ViewBag.BlockId"><button type="button" class="btn btn-success">Daire Ekle</button></a> <br />
+<a style="float:right; margin:10px;" href="https://localhost:44309/apartment/createapartment/@block.Id"><button type="button" class="btn btn-success">Daire Ekle</button></a> <br />
 
-<h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@ViewBag.BlockName Bloğu Daireleri</h4>
+<h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@block.BlockName Bloğu Daireleri</h4>
 
 
 <div class="ul">
     <ul class="list-group ">
-        @foreach (var item in ViewBag.ApartmentList)
+        @foreach (var item in block.Apartments)
         {
             <li class="list-group-item ">
                 @item.Name
                 
                 <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="deleteApartment(@item.Id)">Sil</button>
-                <a href="https://localhost:44309/apartment/updateapartment/@ViewBag.BlockId/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle</button></a>
+                <a href="https://localhost:44309/apartment/updateapartment/@block.Id/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle</button></a>
                 <a href="https://localhost:44309/resident/residentlist/@item.Id"><button type="button" class="btn btn-outline-success btn1">Yaşayanlar</button></a>
-                @if (ViewBag.HomeOwnerList != null)
+                @if (block != null)
                 {
-                    @foreach (var item2 in ViewBag.HomeOwnerList)
+                    @foreach (var item2 in block.Apartments)
                     {
                         @if (item2.HomeOwnerId != null && item == item2)
                         {

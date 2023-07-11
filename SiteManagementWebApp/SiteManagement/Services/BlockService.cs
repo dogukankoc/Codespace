@@ -1,4 +1,5 @@
-﻿using SiteManagement.Models.Db;
+﻿using Microsoft.EntityFrameworkCore;
+using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace SiteManagement.Services
             _context.SaveChanges();
         }
 
-        public UpdateBlockDTO GetUpdateBlock(int siteId, int blockId)
+        public UpdateBlockDTO GetBlockWithSiteandBlockId(int siteId, int blockId)
         {
             var block = _context.Blocks
                     .Where(x => x.SiteId == siteId && x.Id == blockId)
@@ -38,7 +39,7 @@ namespace SiteManagement.Services
             return block;
         }
 
-        public int PostUpdateBlock(UpdateBlockDTO updateBlockDTO)
+        public int UpdateBlock(UpdateBlockDTO updateBlockDTO)
         {
             var toBeUpdatedBlock = _context.Blocks.FirstOrDefault(x => x.Id == updateBlockDTO.BlockId);
             toBeUpdatedBlock.BlockName = updateBlockDTO.BlockName;
@@ -52,6 +53,11 @@ namespace SiteManagement.Services
             var toBeDeletedBlock = _context.Blocks.FirstOrDefault(x => x.Id == blockId);
             _context.Blocks.Remove(toBeDeletedBlock);
             _context.SaveChanges();
+        }
+
+        public Block GetBlockWithApartmentByBlockId(int blockId)
+        {
+            return _context.Blocks.Include(b => b.Apartments).ThenInclude(a => a.Humans).FirstOrDefault(x => x.Id == blockId);
         }
     }
 }

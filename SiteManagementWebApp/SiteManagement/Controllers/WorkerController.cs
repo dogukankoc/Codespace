@@ -1,31 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
+using SiteManagement.Services;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace SiteManagement.Controllers
 {
     public class WorkerController : Controller
     {
-        public IActionResult Index()
+        readonly WorkerService _workerService;
+        readonly SiteService _siteService;
+        public WorkerController(WorkerService workerService, SiteService siteService)
         {
-            return View();
-        }
+            _workerService = workerService;
+            _siteService = siteService;
+        }   
 
         [Route("worker/workerlist/{siteId}")]
         public IActionResult WorkerList(int siteId)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                ViewBag.SiteName = context.Sites.Where(s => s.Id == siteId).Select(s => s.Name).FirstOrDefault();
-                ViewBag.SiteId = siteId;
-                ViewBag.WorkerList = context.Workers.Where(w => w.SiteId == siteId).ToList();
-                
-               
-            }
+            var site = _siteService.GetSiteWithWorkers(siteId);
+            ViewBag.SiteName = site.Name;
+            ViewBag.WorkerList = site.Workers.ToList();
             return View(siteId);
         }
 
@@ -33,12 +32,8 @@ namespace SiteManagement.Controllers
         [HttpPost]
         public IActionResult DeleteWorker(int workerId)
         {
-            using (var context = new SiteManagementDbContext())
-            {
-                var toBeDeletedWorker = context.Workers.FirstOrDefault(x => x.Id == workerId);
-                context.Workers.Remove(toBeDeletedWorker);
-                return Ok(context.SaveChanges());
-            }
+                _workerService.DeleteWorker(workerId);
+                return Ok();
         }
 
         [Route("worker/createworker/{siteId}")]

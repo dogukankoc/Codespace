@@ -42,14 +42,14 @@ namespace SiteManagement.Controllers
         [Route("block/updateblock/{siteId}/{blockId}")]
         public IActionResult UpdateBlock(int siteId,int blockId)
         {
-           return View( _blockService.GetUpdateBlock(siteId, blockId));
+           return View( _blockService.GetBlockWithSiteandBlockId(siteId, blockId));
         }
 
         [Route("block/updateblock/{siteId}/{blockId}")]
         [HttpPost]
         public IActionResult UpdateBlock(UpdateBlockDTO updateBlockDTO)
         {
-            int siteId = _blockService.PostUpdateBlock(updateBlockDTO);
+            int siteId = _blockService.UpdateBlock(updateBlockDTO);
             return RedirectToAction("list", new { siteId =siteId });
         }
 
