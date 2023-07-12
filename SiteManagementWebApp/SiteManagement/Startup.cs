@@ -17,7 +17,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
 namespace SiteManagement
 {
     public class Startup
@@ -27,7 +26,6 @@ namespace SiteManagement
         {
             _configuration = configuration;
         }
-
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -44,19 +42,15 @@ namespace SiteManagement
             services.AddTransient<WorkerService>();
         }
 
-
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             app.UseSession();
             app.UseRouting();
-
             app.UseStaticFiles();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
@@ -68,9 +62,6 @@ namespace SiteManagement
                 endpoints.MapControllerRoute("Home", "anasayfa", new { controller = "Home", action = "Index" });
                 endpoints.MapControllerRoute("Register", "kayitol", new { controller = "Auth", action = "register" });
                 endpoints.MapControllerRoute("Management", "yonetim", new { controller = "Management", action = "Index" });
-
-
-
             });
         }
     }

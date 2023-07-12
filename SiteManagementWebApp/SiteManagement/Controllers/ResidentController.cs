@@ -12,6 +12,7 @@ namespace SiteManagement.Controllers
     {
         readonly ResidentService _residentService;
         readonly ApartmentService _apartmentService;
+
         public ResidentController(ResidentService residentService, ApartmentService service)
         {
             _residentService = residentService;

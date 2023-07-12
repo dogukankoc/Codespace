@@ -2,6 +2,7 @@
 @{
     var block = ViewBag.block as Block;
 }
+
 <style>
     .ul {
         float: left;
@@ -20,9 +21,7 @@
 </style>
 
 <a style="float:right; margin:10px;" href="https://localhost:44309/apartment/createapartment/@block.Id"><button type="button" class="btn btn-success">Daire Ekle</button></a> <br />
-
 <h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@block.BlockName Bloğu Daireleri</h4>
-
 
 <div class="ul">
     <ul class="list-group ">
@@ -78,7 +77,6 @@
                             setTimeout(function () {
                                 window.location.reload(false)
                             }, 2000);
-
                         },
                         error: function () {
                             alert("Hata");

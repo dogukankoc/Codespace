@@ -7,10 +7,10 @@ using System.Linq;
 namespace SiteManagement.Controllers
 {
     public class BlockController : Controller
-
     {
         readonly SiteService _siteService;
         readonly BlockService _blockService;
+
         public BlockController(SiteService siteService, BlockService blockService)
         {
             _siteService = siteService;
@@ -19,7 +19,6 @@ namespace SiteManagement.Controllers
 
         [Route("block/list/{siteId}")]
         public IActionResult List(int siteId)
-
         {
             ViewBag.Site = _siteService.GetSiteWithBlocks(siteId);
             return View();

@@ -22,21 +22,19 @@ namespace SiteManagement.Models.Db
         public DbSet<Human> Humans { get; set; }
         public DbSet<Worker> Workers { get; set; }
 
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(AppSettings.ConnectionString);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             foreach (var relationship in modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
             }
-
             base.OnModelCreating(modelBuilder);
         }
-
     }
 
     

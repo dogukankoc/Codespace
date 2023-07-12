@@ -32,7 +32,7 @@ namespace SiteManagement.Services
             _context.Humans.Remove(toBeDeletedPerson);
             _context.SaveChanges();
         }
-
+        
         public UpdatePersonDTO GetPersonByPersonIdandApartmentId (int apartmentId, int personId)
         {
             return _context.Humans

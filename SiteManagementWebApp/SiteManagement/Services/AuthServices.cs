@@ -1,16 +1,7 @@
-﻿using FluentValidation;
-using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using SiteManagement.Helpers;
+﻿using SiteManagement.Helpers;
 using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
-using System;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using SiteManagement.Controllers;
+using System.Linq;  
 
 namespace SiteManagement.Services
 {
@@ -35,12 +26,10 @@ namespace SiteManagement.Services
                     context.SaveChanges();
                     return null;
                 }
-                
             }
         }
         public static string Login(string email, string password)
         {
-            
             using (var context = new SiteManagementDbContext())
             {
                 var userControl = context.Users.FirstOrDefault(x => x.Email == email);
@@ -56,7 +45,6 @@ namespace SiteManagement.Services
                     return null;
                 }
             }
-            
         }
     }
 }

@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using SiteManagement.Models.Db;
+﻿using SiteManagement.Models.Db;
 using SiteManagement.Models.Db.Entities;
 using SiteManagement.Models.DTOs;
-using System;
 using System.Linq;
 
 namespace SiteManagement.Services
@@ -55,13 +53,5 @@ namespace SiteManagement.Services
             _context.SaveChanges();
             return toBeUpdatedApartment;
         }
-
-        //public Apartment GetApartmentById()
-        //{
-            
-        //    return null;
-        //}
-
-        
     }
 }

@@ -23,7 +23,6 @@
         </select>
         <br />
         <select class="form-select" id="Districts" asp-for="DistrictId">
-            
         </select>
         <br />
 
@@ -35,9 +34,7 @@
 
         <button type="submit" class="btn btn-outline-primary" style="width:25rem; position:absolute; right:2%;">Düzenle</button> <br /> <br />
         <h6>Vazmı geçtiniz <a href="https://localhost:44309/yonetim">geri dönün</a> </h6>
-
     </form>
-
 </div>
 
 
@@ -50,9 +47,7 @@
                 url: '@Url.Action("GetDistricts", "Management")',
                 data: { cityId: cityId },
                 success: function (districts) {  //Backendden başarılı dönünce gelen Json
-
                     $('#Districts').find('option').remove().end();
-
                     $.each(districts, function (index, district) {
                         $('#Districts').append($('<option/>', {
                             id: "district_" + district.id,
@@ -82,10 +77,8 @@
                                 value: city.id,                       //Attributes
                                 text: city.name
                             }));
-                            
                     }
                     );
-                    
                     $('#city_'+@Model.CityId).attr("selected", true); //Key = value
                     getDistricts(@Model.CityId);
                 },

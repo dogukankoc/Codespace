@@ -1,5 +1,4 @@
-﻿
-<style>
+﻿<style>
     .ul {
         float: left;
         width: 40%;
@@ -19,8 +18,6 @@
 <a style="float:right; margin:10px;" href="https://localhost:44309/management/createnewsite"><button type="button" class="btn btn-success">Site Oluştur</button></a> <br />
 
 <h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">Siteler</h4>
-
-
 <div class="ul">
     <ul class="list-group ">
         @foreach (var item in ViewBag.SiteList)
@@ -31,7 +28,6 @@
                 <button id="Delete_@item.Id" type="button" class="btn btn-outline-danger btn1" onclick="DeleteSite(@item.Id)">
                     Sil
                 </button>
-
                 <a href="https://localhost:44309/management/UpdateSite/@item.Id"><button type="button" class="btn btn-outline-warning btn1">Düzenle </button></a>
                 <a href="https://localhost:44309/block/list/@item.Id"><button type="button" class="btn btn-outline-success btn1">Bloklar</button></a>
                 <a href="https://localhost:44309/worker/workerlist/@item.Id"><button type="button" class="btn btn-outline-secondary btn1">Görevliler</button></a>
@@ -52,23 +48,19 @@
             confirmButtonText: 'Evet'
         }).then((result) => {
             if (result.isConfirmed) {
-
                 $.ajax(
                     {
                         type: "post",
                         url: '@Url.Action("DeleteSite", "Management")',
                         data: { siteId: siteId },
                         success: function (data) {
-
                             Swal.fire(
                                 'Silindi!',
                                 'Site silme işlemi başarı ile tamamlandı.'
                             )
-
                             setTimeout(function () {
                                 window.location.href = "sitelist"
                             }, 1000);
-
                         },
                         error: function () {
                             alert("Hata");

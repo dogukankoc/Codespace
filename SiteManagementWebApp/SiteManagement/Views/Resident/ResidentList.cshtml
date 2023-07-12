@@ -1,5 +1,4 @@
 ﻿@using SiteManagement.Models.Db.Entities;
-
 @{
     var apartment = ViewBag.Apartment as Apartment;
 }
@@ -13,17 +12,14 @@
         top: 15%;
         left: 29%;
     }
-
     .btn1 {
         float: right;
         margin: 5px;
     }
-
 </style>
 
 <a style="float:right; margin:10px;" href="https://localhost:44309/resident/createperson/@apartment.Id"><button type="button" class="btn btn-success">Kişi Ekle</button></a>
 <a style="float:right; margin:10px;" href="https://localhost:44309/resident/sethomeowner/@apartment.Id"><button type="button" class="btn btn-success">Daire Sorumlusu</button></a> <br />
-
 <h4 style="position:absolute;left:29.5%; top:10%; color:#11033F;">@apartment.Name Oturanlar Listesi</h4>
 
 <div class="ul">
@@ -52,14 +48,12 @@
             confirmButtonText: 'Evet'
         }).then((result) => {
             if (result.isConfirmed) {
-                
                 $.ajax(
                     {
                         type: "post",
                         url: '@Url.Action("DeletePerson", "Resident")',
                         data: { personId: personId },
                         success: function (data) {
-
                             Swal.fire({
                                 title: 'Silindi!',
                                 text: 'Daire silme işlemi başarı ile tamamlandı.',
@@ -69,7 +63,6 @@
                             setTimeout(function () {
                                 window.location.reload(false)
                             }, 2000);
-
                         },
                         error: function () {
                             alert("Hata");

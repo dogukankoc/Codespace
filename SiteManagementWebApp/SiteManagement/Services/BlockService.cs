@@ -47,7 +47,6 @@ namespace SiteManagement.Services
 
             return toBeUpdatedBlock.SiteId;
         }
-
         public void DeleteBlock(int blockId)
         {
             var toBeDeletedBlock = _context.Blocks.FirstOrDefault(x => x.Id == blockId);

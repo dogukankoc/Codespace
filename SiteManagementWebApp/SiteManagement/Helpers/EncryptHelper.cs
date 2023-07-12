@@ -6,7 +6,6 @@ namespace SiteManagement.Helpers
 {
     public static class EncryptHelper
     {
-
        public static string SHA256Hash(string password)
         {
             string source = password;
@@ -18,6 +17,5 @@ namespace SiteManagement.Helpers
                 return (hash);
             }
         }
-
     }
 }

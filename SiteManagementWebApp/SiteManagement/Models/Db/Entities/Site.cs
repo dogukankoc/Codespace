@@ -19,9 +19,5 @@ namespace SiteManagement.Models.Db.Entities
 
         [ForeignKey(nameof(ManagerHumanId))]
         public Human Human { get; set; }
-
-
-
-
     }
 }
