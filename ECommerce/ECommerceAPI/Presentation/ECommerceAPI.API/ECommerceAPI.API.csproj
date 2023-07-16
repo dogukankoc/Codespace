@@ -16,4 +16,8 @@
     <ProjectReference Include="..\..\Infrastructure\ECommerAPI.Persistance\ECommerAPI.Persistance.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+  </ItemGroup>
+
 </Project>

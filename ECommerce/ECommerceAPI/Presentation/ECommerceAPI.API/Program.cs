@@ -1,4 +1,6 @@
 ﻿
+using ECommerAPI.Persistance;
+
 namespace ECommerceAPI.API
 {
     public class Program
@@ -8,6 +10,7 @@ namespace ECommerceAPI.API
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddControllers();
+            builder.Services.AddPersistanceServices();
 
             var app = builder.Build();
 
